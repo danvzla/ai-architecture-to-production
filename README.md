@@ -10,7 +10,12 @@ The showcase is organized around an **Architecture-to-Production Methodology** w
 
 ---
 
-## What this repository demonstrates
+### Live Demo
+
+**Explore the interactive showcase:**  
+https://danvzla.github.io/ai-architecture-to-production/
+
+# What this repository demonstrates
 
 This project is designed to show more than a final architecture diagram. It demonstrates the practitioner work required to move an AI initiative from an idea into a governed, supportable production service.
 
@@ -25,10 +30,12 @@ It focuses on four questions at every step:
 
 # Architecture-to-Production MOP
 
+> **Diagram note:** GitHub automatically adds zoom, pan, and copy controls to Mermaid diagrams. The diagrams below are intentionally vertical and compact to reduce horizontal scrolling and visual clutter.
+
 The MOP provides a repeatable structure for progressing an enterprise AI initiative through six connected phases:
 
 ```mermaid
-flowchart LR
+flowchart TD
     A[Discover] --> B[Assess]
     B --> C[Design]
     C --> D[Validate]
@@ -56,7 +63,7 @@ The lifecycle is intentionally broader than architecture design alone. It includ
 Establish why the initiative exists, what outcome is expected, who must be involved, and what the current environment looks like.
 
 ```mermaid
-flowchart LR
+flowchart TD
     S1["01 Confirm initiative"] --> S2["02 Frame outcome"]
     S2 --> S3["03 Map stakeholders"]
     S3 --> S4["04 Analyze current state"]
@@ -78,7 +85,7 @@ flowchart LR
 Determine whether AI is appropriate, whether the organization is ready, and whether the use case should move forward.
 
 ```mermaid
-flowchart LR
+flowchart TD
     S6["06 Determine AI suitability"] --> S7["07 Assess readiness"]
     S7 --> S8["08 Prioritize use case"]
 ```
@@ -99,7 +106,7 @@ flowchart LR
 Translate the approved use case into an architecture that is technically feasible, governable, secure, measurable, and supportable.
 
 ```mermaid
-flowchart LR
+flowchart TD
     S9["09 Conceptual architecture"] --> S10["10 Options & sourcing"]
     S10 --> S11["11 Architecture decisions"]
     S11 --> S12["12 Logical AI architecture"]
@@ -127,7 +134,7 @@ flowchart LR
 Test the architecture and prove that the proposed solution is ready to move toward production.
 
 ```mermaid
-flowchart LR
+flowchart TD
     S16["16 Pilot plan"] --> S17["17 Pilot evaluation"]
     S17 --> S18["18 Production readiness"]
 ```
@@ -149,7 +156,7 @@ flowchart LR
 Turn the validated architecture into a production service and transition it into controlled use.
 
 ```mermaid
-flowchart LR
+flowchart TD
     S19["19 Implementation & adoption"] --> S20["20 Controlled go-live"]
 ```
 
@@ -171,7 +178,7 @@ flowchart LR
 Operate, observe, improve, and periodically determine whether the solution should scale, change, or retire.
 
 ```mermaid
-flowchart LR
+flowchart TD
     S21["21 Operate & improve"] --> S22["22 Recertify / scale / retire"]
 ```
 
@@ -235,7 +242,7 @@ flowchart TD
 Every step follows a consistent operating pattern:
 
 ```mermaid
-flowchart LR
+flowchart TD
     A["Evidence / Inputs"] --> B["Practitioner analysis"]
     B --> C["Architecture / delivery action"]
     C --> D["Decision or governance gate"]
@@ -249,36 +256,20 @@ This creates traceability from **evidence → thinking → action → decision �
 
 # Cross-Cutting Workstreams
 
-The six phases are supported by workstreams that continue throughout the lifecycle.
+These concerns stay active across the full lifecycle instead of being handled once and forgotten.
 
-```mermaid
-flowchart TB
-    subgraph Lifecycle["Architecture-to-Production Lifecycle"]
-      D1[Discover] --> D2[Assess] --> D3[Design] --> D4[Validate] --> D5[Deliver] --> D6[Operate]
-    end
-
-    W1[Business Value]
-    W2[Data & Knowledge]
-    W3[Security & Risk]
-    W4[Responsible AI]
-    W5[Evaluation]
-    W6[FinOps / Economics]
-    W7[Architecture Decisions]
-    W8[Program Governance]
-    W9[Change & Adoption]
-    W10[Operations]
-
-    W1 -.-> Lifecycle
-    W2 -.-> Lifecycle
-    W3 -.-> Lifecycle
-    W4 -.-> Lifecycle
-    W5 -.-> Lifecycle
-    W6 -.-> Lifecycle
-    W7 -.-> Lifecycle
-    W8 -.-> Lifecycle
-    W9 -.-> Lifecycle
-    W10 -.-> Lifecycle
-```
+| Workstream | What remains visible throughout the lifecycle |
+|---|---|
+| Business value | Outcomes, KPIs, prioritization, benefits realization |
+| Data & knowledge | Quality, access, grounding, lineage, retention |
+| Security & risk | Identity, privacy, controls, threats, residual risk |
+| Responsible AI | Human oversight, transparency, accountability |
+| Evaluation | Quality, safety, latency, reliability, acceptance criteria |
+| FinOps / economics | TCO, ROI, NPV, unit cost, consumption |
+| Architecture decisions | Options, tradeoffs, ADRs, standards |
+| Program governance | Owners, gates, RAID, dependencies, escalation |
+| Change & adoption | Training, process change, user readiness |
+| Operations | Runbooks, observability, incidents, recertification |
 
 These workstreams help prevent the common failure mode of treating AI architecture as only a model-selection or technology exercise.
 
@@ -289,7 +280,7 @@ These workstreams help prevent the common failure mode of treating AI architectu
 A practitioner does not automatically move an initiative from one phase to the next.
 
 ```mermaid
-flowchart LR
+flowchart TD
     G1["Gate 1<br/>Initiative framed"] --> G2["Gate 2<br/>AI suitability & readiness"]
     G2 --> G3["Gate 3<br/>Architecture approved"]
     G3 --> G4["Gate 4<br/>Pilot accepted"]
@@ -315,31 +306,18 @@ Typical evidence considered at these gates includes:
 
 # Artifact Flow
 
-The methodology produces customer-facing artifacts as the initiative matures.
+The deliverables mature as the initiative progresses.
 
-```mermaid
-flowchart TD
-    A[Initiative Brief] --> B[Outcome & Stakeholder Framing]
-    B --> C[Current-State Assessment]
-    C --> D[AI Suitability & Readiness]
-    D --> E[Use-Case Prioritization]
-    E --> F[Conceptual Architecture]
-    F --> G[Options / Sourcing Analysis]
-    G --> H[Architecture Decision Records]
-    H --> I[Logical Architecture]
-    I --> J[Security & Governance Design]
-    J --> K[Evaluation Plan]
-    K --> L[Implementation Architecture]
-    L --> M[Pilot Plan]
-    M --> N[Pilot Evaluation]
-    N --> O[Production Readiness Decision]
-    O --> P[Implementation & Adoption Plan]
-    P --> Q[Go-Live / Service Transition Record]
-    Q --> R[Operations Runbook & Observability]
-    R --> S[Recertification Decision]
-```
+| Lifecycle area | Representative customer outputs |
+|---|---|
+| Discover | Initiative brief, outcome framing, stakeholder map, current-state assessment, RACR |
+| Assess | AI suitability assessment, readiness assessment, prioritized use case |
+| Design | Conceptual architecture, options/sourcing analysis, ADRs, logical architecture, security/governance design, evaluation criteria, implementation architecture |
+| Validate | Pilot plan, pilot evaluation, production-readiness decision |
+| Deliver | Implementation/adoption plan, go-live and service-transition record |
+| Operate | Operations runbook, observability model, recertification decision |
 
-The website includes a rendered visual template for each methodology step.
+The interactive showcase provides a visual template for every one of the 22 steps.
 
 ---
 
@@ -348,16 +326,13 @@ The website includes a rendered visual template for each methodology step.
 The second part of the showcase applies the same 22-step methodology to **15 illustrative enterprise AI scenarios**.
 
 ```mermaid
-flowchart LR
-    M["One 22-step methodology"] --> S1["Scenario 01"]
-    M --> S2["Scenario 02"]
-    M --> S3["Scenario ..."]
-    M --> S15["Scenario 15"]
+flowchart TD
+    M["One 22-step methodology"]
+    S["15 illustrative enterprise AI scenarios"]
+    A["22 completed deliverables per scenario"]
+    T["330 completed customer-style artifacts"]
 
-    S1 --> A1["22 completed artifacts"]
-    S2 --> A2["22 completed artifacts"]
-    S3 --> A3["22 completed artifacts"]
-    S15 --> A15["22 completed artifacts"]
+    M --> S --> A --> T
 ```
 
 **15 scenarios × 22 deliverables = 330 completed customer-style artifacts**
@@ -384,7 +359,7 @@ This repository represents the **broader practitioner lifecycle**.
 The separate **AI Architecture Advisor** is an **8-agent AI architecture accelerator** that supports selected discovery, assessment, and design activities.
 
 ```mermaid
-flowchart LR
+flowchart TD
     A[Discover] --> B[Assess] --> C[Design] --> D[Validate] --> E[Deliver] --> F[Operate]
 
     X["AI Architecture Advisor<br/>8-agent accelerator"]
