@@ -1,0 +1,1179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Practitioner showcase demonstrating how Daniel Mazzini runs enterprise AI engagements from initial request through architecture, delivery and operations." />
+<title>Enterprise AI Architecture-to-Production · Practitioner Showcase</title>
+<style>
+:root{
+  --bg:#07111f;--panel:#0b1b2f;--panel2:#0e223a;--panel3:#112a46;--line:#254461;
+  --text:#f4f7fb;--muted:#a8b9ca;--accent:#45a9ff;--accent2:#22d3a6;--warn:#f6c453;
+  --max:1480px;--radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(180deg,#06101d 0%,var(--bg) 38%,#06101c 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button{font:inherit}
+.app{width:min(var(--max),calc(100% - 28px));margin:0 auto;padding:26px 0 34px}
+.hero{padding:4px 2px 18px}
+.kicker{font-size:12px;text-transform:uppercase;letter-spacing:.14em;font-weight:850;color:var(--accent);margin-bottom:8px}
+h1{font-size:clamp(34px,4vw,56px);line-height:1.03;letter-spacing:-.038em;margin:0 0 11px;max-width:1050px}
+.hero p{font-size:clamp(16px,1.5vw,20px);line-height:1.5;color:#c9d6e3;margin:0;max-width:1120px}
+.hero-note{margin-top:9px;color:var(--muted);font-size:12.5px}
+.method{border:1px solid var(--line);background:rgba(8,23,40,.86);border-radius:var(--radius);padding:14px;margin-bottom:14px}
+.method-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-end;margin-bottom:11px}
+.method-top strong{font-size:14px}.method-top span{font-size:11.5px;color:var(--muted)}
+.phase-row{display:flex;align-items:stretch;gap:30px;overflow-x:auto;overflow-y:visible;padding:2px 6px 10px;scrollbar-width:thin;scrollbar-color:#315878 transparent}
+.phase-row::-webkit-scrollbar,.steps::-webkit-scrollbar{height:6px}.phase-row::-webkit-scrollbar-thumb,.steps::-webkit-scrollbar-thumb{background:#315878;border-radius:999px}.phase-row::-webkit-scrollbar-track,.steps::-webkit-scrollbar-track{background:transparent}
+.phase{position:relative;flex:1 0 165px;border:1px solid #284a68;background:#0b1d31;color:var(--text);border-radius:10px;padding:10px 11px;text-align:left;cursor:pointer;min-height:64px;transition:.15s ease}
+.phase:not(:last-child)::after{content:"→";position:absolute;right:-22px;top:50%;transform:translateY(-50%);color:#597a98;font-size:17px;font-weight:700;pointer-events:none}
+.phase:hover{border-color:#4777a0;transform:translateY(-1px)}
+.phase.active{border-color:var(--accent);background:#0d2b47;box-shadow:0 0 0 1px rgba(69,169,255,.13) inset}
+.phase.active:not(:last-child)::after{color:var(--accent)}
+.phase-name{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:850}.dot{width:7px;height:7px;border-radius:50%;background:#526f8c}.phase.active .dot{background:var(--accent)}
+.phase-range{font-size:10.5px;color:var(--muted);margin-top:4px}
+.phase-context{display:grid;grid-template-columns:minmax(260px,.48fr) minmax(0,1.52fr);gap:18px;border-top:1px solid #203d58;margin-top:8px;padding-top:14px}
+.phase-copy h2{font-size:14px;margin:0 0 4px}.phase-copy p{font-size:12px;color:var(--muted);line-height:1.45;margin:0}
+.steps{display:flex;flex-wrap:nowrap;align-items:stretch;gap:28px;overflow-x:auto;overflow-y:visible;padding:2px 4px 10px;scrollbar-width:thin;scrollbar-color:#315878 transparent}
+.step{position:relative;flex:1 0 118px;min-width:118px;max-width:175px;border:1px solid #2b4e6d;background:#091a2c;color:#c7d5e4;border-radius:9px;padding:9px 10px;font-size:10.8px;line-height:1.25;text-align:center;cursor:pointer;transition:.15s ease}
+.step:not(:last-child)::after{content:"→";position:absolute;right:-20px;top:50%;transform:translateY(-50%);color:#557693;font-size:15px;font-weight:700;pointer-events:none}
+.step:hover{border-color:#4d82ad;color:white;transform:translateY(-1px)}.step.active{background:#0d2b47;border-color:var(--accent);color:#eaf6ff;font-weight:850;box-shadow:0 0 0 1px rgba(69,169,255,.13) inset}
+.step.active:not(:last-child)::after{color:var(--accent)}
+.workspace{border:1px solid var(--line);border-radius:var(--radius);background:linear-gradient(180deg,#0a1b2f,#081726);overflow:hidden}
+.ws-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;padding:17px 19px;border-bottom:1px solid var(--line)}
+.crumb{font-size:10.5px;text-transform:uppercase;letter-spacing:.11em;color:var(--accent);font-weight:850;margin-bottom:5px}
+.ws-head h2{font-size:clamp(24px,2.4vw,34px);letter-spacing:-.025em;margin:0 0 6px}.purpose{font-size:13.5px;color:#bdcddd;line-height:1.48;margin:0;max-width:980px}
+.count{align-self:start;border:1px solid #2b4e6d;background:#0b2036;border-radius:10px;padding:8px 10px;text-align:center;color:var(--muted);font-size:10px;min-width:74px}.count strong{display:block;color:var(--text);font-size:18px}
+.ws-body{display:grid;grid-template-columns:minmax(360px,.72fr) minmax(600px,1.28fr)}
+.practice{padding:17px 18px;border-right:1px solid var(--line)}
+.template{padding:17px 18px;background:rgba(4,13,24,.28)}
+.block{border:1px solid #23425f;background:#0b1d31;border-radius:10px;padding:11px 12px;margin-bottom:10px}
+.block h3{font-size:11px;text-transform:uppercase;letter-spacing:.09em;margin:0 0 8px;color:#dce8f4}.block.do h3{color:var(--accent)}.block.consider h3{color:var(--warn)}
+ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}li{display:grid;grid-template-columns:17px 1fr;gap:7px;color:#cad6e2;font-size:12.2px;line-height:1.35}li b{color:var(--accent)}.consider li b{color:var(--warn)}
+.outcome-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.outcome{border:1px solid #285553;background:#0a2130;border-radius:10px;padding:11px}.outcome.gate{border-color:#5f5028;background:#172217}.outcome .label{font-size:9.8px;text-transform:uppercase;letter-spacing:.1em;font-weight:900;color:var(--accent2);margin-bottom:5px}.outcome.gate .label{color:var(--warn)}.outcome strong{display:block;font-size:12.5px;line-height:1.38}.outcome p{font-size:10.8px;color:var(--muted);line-height:1.35;margin:4px 0 0}
+.template-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-end;margin-bottom:10px}.template-head h3{font-size:15px;margin:0}.template-head p{font-size:10.8px;color:var(--muted);margin:3px 0 0}.open{border:1px solid #38688f;background:#0d2944;color:#e9f4ff;border-radius:8px;padding:8px 10px;font-size:10.8px;font-weight:800;cursor:pointer}.open:hover{background:#143956}
+.frame{border:1px solid #2b4f70;border-radius:10px;overflow:hidden;background:#04101d;cursor:zoom-in}.frame img{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#061326}.exact{font-size:10.2px;color:var(--muted);margin-top:8px;display:flex;align-items:center;gap:6px}.exact:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent2)}
+.ws-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 16px;border-top:1px solid var(--line);background:#071728}.nav{border:1px solid #315878;background:#0b2036;color:#e3edf7;border-radius:8px;padding:8px 10px;font-size:11px;font-weight:800;cursor:pointer}.nav:disabled{opacity:.32;cursor:not-allowed}.track{height:4px;background:#17334f;border-radius:999px;overflow:hidden;flex:1;max-width:420px}.fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0;transition:.2s ease}
+.footer-note{text-align:center;color:#71869a;font-size:10.5px;padding:17px 0 0}
+.modal{position:fixed;inset:0;background:rgba(0,5,12,.9);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}.modal.open{display:flex}.modal-card{width:min(1500px,98vw);max-height:96vh}.modal-bar{display:flex;justify-content:space-between;align-items:center;color:#dce8f4;font-size:11px;margin-bottom:7px}.close{border:1px solid #4d6e8c;background:#0b2036;color:white;border-radius:8px;padding:7px 10px;cursor:pointer}.modal img{display:block;width:100%;max-height:90vh;object-fit:contain;background:#061326;border:1px solid #2c506f;border-radius:10px}
+@media(max-width:1050px){.phase-context{grid-template-columns:1fr}.ws-body{grid-template-columns:1fr}.practice{border-right:0;border-bottom:1px solid var(--line)}.phase{flex-basis:175px}.step{flex-basis:140px}}
+@media(max-width:690px){.app{width:calc(100% - 18px);padding-top:16px}.method{padding:10px}.ws-head{grid-template-columns:1fr}.count{justify-self:start}.outcome-grid{grid-template-columns:1fr}.practice,.template{padding:13px}.ws-foot{flex-wrap:wrap}.track{order:3;max-width:none;flex-basis:100%}.phase{flex-basis:160px}.step{flex-basis:132px;font-size:10.5px}.hero{padding-bottom:14px}}
+
+/* ===== Methodology in Practice: applied scenario library ===== */
+.practice-section{margin-top:18px;border:1px solid var(--line);border-radius:var(--radius);background:rgba(8,23,40,.86);overflow:hidden}
+.practice-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.practice-head .eyebrow{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--accent2);font-weight:850;margin-bottom:5px}
+.practice-head h2{font-size:20px;margin:0 0 5px;letter-spacing:-.015em}.practice-head p{margin:0;color:var(--muted);font-size:12.5px;line-height:1.45;max-width:900px}
+.scenario-controls{padding:14px 18px;border-bottom:1px solid #1f3c57;background:#08192b}
+.scenario-select-row{display:flex;gap:10px;align-items:center}.scenario-select-row label{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:850;white-space:nowrap}
+.scenario-select{flex:1;min-width:0;border:1px solid #315878;background:#0a1e33;color:#e8f1f9;border-radius:8px;padding:9px 11px;font-size:11.5px;outline:none}.scenario-select:focus{border-color:var(--accent)}
+.scenario-body{padding:16px 18px}.scenario-title-row{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:12px}.scenario-title-row h3{margin:0;font-size:18px}.scenario-industry{color:var(--accent2);font-size:10px;text-transform:uppercase;letter-spacing:.1em;font-weight:850;margin-bottom:4px}.scenario-badge{border:1px solid #315878;background:#0b2036;color:#b9ccdc;border-radius:999px;padding:6px 9px;font-size:9.5px;white-space:nowrap}
+
+.applied-step{margin-top:12px;border:1px solid #28566a;background:linear-gradient(180deg,rgba(9,42,47,.72),rgba(7,30,40,.72));border-radius:10px;padding:12px 13px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(250px,.85fr);gap:16px}
+.applied-step .label{font-size:9px;text-transform:uppercase;letter-spacing:.09em;color:var(--accent2);font-weight:850;margin-bottom:5px}.applied-step h4{font-size:13px;margin:0 0 5px}.applied-step p{font-size:11.5px;color:#bad0dd;line-height:1.48;margin:0}.applied-proof{border-left:1px solid #28566a;padding-left:16px}.applied-proof strong{display:block;font-size:11.5px;line-height:1.4}.applied-proof span{display:block;color:var(--muted);font-size:10px;line-height:1.4;margin-top:4px}
+.practice-method-nav{margin-top:14px;border:1px solid #23425f;background:#08192b;border-radius:11px;padding:12px}.practice-nav-label{display:flex;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom:10px}.practice-nav-label strong{font-size:12px}.practice-nav-label span{color:var(--muted);font-size:10.5px}.practice-phase-context{margin-top:6px}.scenario-deliverable{margin-top:12px;display:grid;grid-template-columns:minmax(280px,.48fr) minmax(0,1.52fr);gap:12px}.scenario-context-panel,.scenario-image-panel{border:1px solid #23425f;background:#091a2c;border-radius:10px;padding:12px}.scenario-context-panel .label{font-size:9px;text-transform:uppercase;letter-spacing:.09em;color:var(--accent2);font-weight:850;margin-bottom:5px}.scenario-context-panel h4{font-size:14px;margin:0 0 6px}.scenario-context-panel>p{font-size:11.5px;color:#bad0dd;line-height:1.5;margin:0 0 12px}.scenario-decision,.scenario-artifact-name{border-top:1px solid #24435e;padding-top:9px;margin-top:9px}.scenario-decision span,.scenario-artifact-name span{display:block;color:#7890a6;font-size:9px;text-transform:uppercase;letter-spacing:.08em;font-weight:850;margin-bottom:4px}.scenario-decision strong,.scenario-artifact-name strong{display:block;font-size:11.5px;line-height:1.4}.scenario-image-panel{background:rgba(4,13,24,.28)}
+@media(max-width:900px){.applied-step{grid-template-columns:1fr}.applied-proof{border-left:0;border-top:1px solid #28566a;padding-left:0;padding-top:12px}.scenario-deliverable{grid-template-columns:1fr}.practice-nav-label{align-items:flex-start;flex-direction:column}}
+@media(max-width:620px){.practice-head{align-items:flex-start;flex-direction:column}.scenario-select-row{align-items:stretch;flex-direction:column}.scenario-body,.scenario-controls,.practice-head{padding-left:13px;padding-right:13px}}
+
+
+/* ===== Primary showcase tabs ===== */
+.showcase-tabs{display:flex;gap:8px;margin:0 0 14px;padding:6px;border:1px solid var(--line);background:rgba(8,23,40,.86);border-radius:12px}
+.showcase-tab{flex:1;border:1px solid transparent;background:transparent;color:var(--muted);border-radius:9px;padding:11px 14px;font-size:12.5px;font-weight:850;letter-spacing:.01em;cursor:pointer;transition:.15s ease}
+.showcase-tab:hover{color:var(--text);background:#0a1e33}
+.showcase-tab.active{color:#eef8ff;background:#0d2b47;border-color:var(--accent);box-shadow:0 0 0 1px rgba(69,169,255,.12) inset}
+.tab-panel[hidden]{display:none!important}
+.tab-intro{margin:-2px 0 12px;color:var(--muted);font-size:11.5px;line-height:1.45}
+@media(max-width:620px){.showcase-tabs{flex-direction:column}.showcase-tab{text-align:left}}
+
+</style>
+</head>
+<body>
+<main class="app">
+  <section class="hero">
+    <div class="kicker">Practitioner Showcase · AI Architecture &amp; Delivery</div>
+    <h1>Enterprise AI Architecture-to-Production</h1>
+    <p>How I engage customers and lead enterprise AI initiatives from initial request through discovery, assessment, architecture, pilot validation, production implementation, controlled go-live, operations, and recertification.</p>
+    <div class="hero-note">Explore the methodology to see what I do, what I consider, the decision gate I manage, and the customer deliverable I produce at every step.</div>
+  </section>
+
+  <nav class="showcase-tabs" role="tablist" aria-label="Practitioner showcase views">
+    <button class="showcase-tab active" id="methodTabBtn" role="tab" aria-selected="true" aria-controls="methodTabPanel" type="button">Architecture-to-Production Methodology</button>
+    <button class="showcase-tab" id="practiceTabBtn" role="tab" aria-selected="false" aria-controls="practiceTabPanel" type="button">Methodology in Practice</button>
+  </nav>
+
+  <div class="tab-panel" id="methodTabPanel" role="tabpanel" aria-labelledby="methodTabBtn">
+    <div class="tab-intro">A practitioner framework aligned with TOGAF and NIST AI RMF, and grounded in enterprise security, governance, evaluation, and delivery practices · 6 phases · 22 steps.</div>
+
+  <section class="method" aria-label="Architecture-to-production methodology">
+    <div class="method-top"><div><strong>Architecture-to-production methodology</strong><br><span>Select a phase, then a step.</span></div><span id="methodProgress">Step 01 of 22</span></div>
+    <div class="phase-row" id="phaseRow"></div>
+    <div class="phase-context">
+      <div class="phase-copy"><h2 id="phaseTitle"></h2><p id="phaseDescription"></p></div>
+      <div class="steps" id="stepTabs"></div>
+    </div>
+  </section>
+
+  <section class="workspace" aria-live="polite">
+    <div class="ws-head">
+      <div><div class="crumb" id="breadcrumb"></div><h2 id="stepTitle"></h2><p class="purpose" id="purpose"></p></div>
+      <div class="count"><strong id="stepCounter">01</strong>of 22 steps</div>
+    </div>
+    <div class="ws-body">
+      <div class="practice">
+        <div class="block do"><h3>What I do</h3><ul id="actions"></ul></div>
+        <div class="block consider"><h3>What I consider</h3><ul id="decisions"></ul></div>
+        <div class="outcome-grid">
+          <div class="outcome"><div class="label">Customer deliverable</div><strong id="output"></strong><p>The reusable artifact that captures the evidence and recommendation for this step.</p></div>
+          <div class="outcome gate"><div class="label">Decision / gate</div><strong id="gate"></strong><p>The condition I use to advance, revise, hold, or escalate the engagement.</p></div>
+        </div>
+      </div>
+      <div class="template">
+        <div class="template-head"><div><h3 id="templateTitle"></h3><p>Blank customer-ready template from the MOP deck.</p></div><button class="open" id="openTemplate" type="button">Open full template</button></div>
+        <div class="frame" id="templateFrame" role="button" tabindex="0" aria-label="Open full deliverable template"><img id="templateImg" alt=""></div>
+        <div class="exact">Exact visual template rendered from the Enterprise AI Architecture-to-Production MOP PowerPoint.</div>
+      </div>
+    </div>
+    <div class="ws-foot"><button class="nav" id="prevBtn" type="button">← Previous step</button><div class="track"><div class="fill" id="progressFill"></div></div><button class="nav" id="nextBtn" type="button">Next step →</button></div>
+  </section>
+  <div class="footer-note">Daniel Mazzini · SolTelCo Advisory · Enterprise Architecture &amp; Applied AI Consulting</div>
+
+  </div>
+
+  <div class="tab-panel" id="practiceTabPanel" role="tabpanel" aria-labelledby="practiceTabBtn" hidden>
+    <section class="practice-section" id="methodologyInPractice" aria-label="Methodology in practice">
+    <div class="practice-head">
+      <div>
+        <div class="eyebrow">Applied enterprise AI scenarios</div>
+        <h2>Methodology in Practice</h2>
+        <p>Explore 15 pre-built enterprise AI scenarios with 22 completed deliverables each. See how the same architecture-to-production methodology adapts to different industries, business outcomes, architecture patterns, risks, controls, and operating environments—and use these worked examples to learn from, compare approaches, and inspire your own AI initiatives.</p>
+      </div>
+      <span class="scenario-badge">Illustrative, non-client scenarios</span>
+    </div>
+    <div class="scenario-controls">
+      <div class="scenario-select-row">
+        <label for="scenarioSelect">Select engagement</label>
+        <select class="scenario-select" id="scenarioSelect"></select>
+      </div>
+    </div>
+    <div class="scenario-body">
+      <div class="scenario-title-row">
+        <div><div class="scenario-industry" id="scenarioIndustry"></div><h3 id="scenarioTitle"></h3></div>
+        <span class="scenario-badge" id="scenarioStepBadge"></span>
+      </div>
+      <div class="practice-method-nav" aria-label="Scenario methodology navigation">
+        <div class="practice-nav-label"><strong>Apply the methodology</strong><span>Select a phase and step to view the completed scenario deliverable.</span></div>
+        <div class="phase-row" id="practicePhaseRow"></div>
+        <div class="phase-context practice-phase-context">
+          <div class="phase-copy"><h2 id="practicePhaseTitle"></h2><p id="practicePhaseDescription"></p></div>
+          <div class="steps" id="practiceStepTabs"></div>
+        </div>
+      </div>
+
+      <div class="scenario-deliverable">
+        <div class="scenario-context-panel">
+          <div class="label">Scenario-specific application</div>
+          <h4 id="appliedStepTitle"></h4>
+          <p id="appliedStepText"></p>
+          <div class="scenario-decision"><span>Decision lens</span><strong id="appliedDecision"></strong></div>
+          <div class="scenario-artifact-name"><span>Completed customer artifact</span><strong id="appliedArtifact"></strong></div>
+        </div>
+        <div class="scenario-image-panel">
+          <div class="template-head"><div><h3 id="scenarioDeliverableTitle"></h3><p>Completed scenario deliverable from the Enterprise AI Architecture Deliverables deck.</p></div><button class="open" id="openScenarioDeliverable" type="button">Open full deliverable</button></div>
+          <div class="frame" id="scenarioDeliverableFrame" role="button" tabindex="0" aria-label="Open full scenario deliverable"><img id="scenarioDeliverableImg" alt=""></div>
+          <div class="exact">Exact scenario artifact rendered from the attached deliverables PowerPoint.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+
+</main>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Full deliverable template"><div class="modal-card"><div class="modal-bar"><span id="modalTitle"></span><button class="close" id="closeModal" type="button">Close</button></div><img id="modalImg" alt=""></div></div>
+<script>
+const DATA = {
+  "phases": [
+    {
+      "name": "Discover",
+      "tagline": "establish evidence before solution",
+      "description": "Every architecture decision made later in this MOP traces back to evidence gathered in this section. Skip a step here and you are designing on assumption, not fact.",
+      "slide": 23,
+      "start": 1,
+      "end": 5,
+      "steps": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "name": "Assess",
+      "tagline": "decide whether AI is suitable and ready",
+      "description": "This is where the practitioner earns the right to say yes to AI — or say no, with evidence, and still be seen as credible for saying it.",
+      "slide": 58,
+      "start": 6,
+      "end": 8,
+      "steps": [
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "name": "Design",
+      "tagline": "create defensible enterprise AI architecture",
+      "description": "The largest section in the MOP, and deliberately so — conceptual through implementation architecture, sourcing, decisions, security, and evaluation criteria all live here.",
+      "slide": 78,
+      "start": 9,
+      "end": 15,
+      "steps": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ]
+    },
+    {
+      "name": "Validate",
+      "tagline": "prove the solution safely",
+      "description": "Everything up to this point was analysis and design. This section proves the solution in a controlled pilot and confirms production readiness before live rollout.",
+      "slide": 125,
+      "start": 16,
+      "end": 18,
+      "steps": [
+        16,
+        17,
+        18
+      ]
+    },
+    {
+      "name": "Deliver",
+      "tagline": "implement, adopt and transition",
+      "description": "A validated AI solution still needs controlled implementation, adoption planning, ownership transfer, monitoring and rollback before it becomes a managed service.",
+      "slide": 147,
+      "start": 19,
+      "end": 20,
+      "steps": [
+        19,
+        20
+      ]
+    },
+    {
+      "name": "Operate",
+      "tagline": "manage, improve and recertify",
+      "description": "Launch is not the finish line. This final section is where most training programs stop and where most real AI initiatives actually succeed or quietly fail.",
+      "slide": 162,
+      "start": 21,
+      "end": 22,
+      "steps": [
+        21,
+        22
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "id": 1,
+      "num": "01",
+      "groupPhase": "Discover",
+      "phase": "Discover",
+      "title": "Confirm the AI Initiative and Engagement",
+      "purpose": "Validate the request, sponsor, scope and engagement path before technical design begins.",
+      "architectureLevel": "Conceptual",
+      "togaf": "Architecture Vision",
+      "nist": "Govern / Map",
+      "output": "AI Initiative Intake and Engagement Charter",
+      "gate": "Sponsor confirms scope, decision owner and discovery path.",
+      "actions": [
+        "Capture stated request in customer language",
+        "Identify sponsor, decision owner and business user",
+        "Clarify what decision is expected next",
+        "Screen for obvious blockers and unsafe commitments",
+        "Recommend the right engagement path"
+      ],
+      "decisions": [
+        "Workshop vs assessment vs design sprint vs pilot",
+        "Proceed with discovery vs pause for sponsor alignment",
+        "Use case exploration vs platform strategy",
+        "Customer-owned vs partner-led execution"
+      ],
+      "templateSlide": 188,
+      "templatePath": "images/templates/step-01-template.png"
+    },
+    {
+      "id": 2,
+      "num": "02",
+      "groupPhase": "Discover",
+      "phase": "Discover",
+      "title": "Frame the Business Problem and Measurable Outcome",
+      "purpose": "Convert a vague AI idea into a measurable business outcome and workflow problem.",
+      "architectureLevel": "Conceptual",
+      "togaf": "Business Architecture",
+      "nist": "Map",
+      "output": "Business Outcome and KPI Definition",
+      "gate": "Baseline, target, owner and timeline are accepted.",
+      "actions": [
+        "Name the user and workflow",
+        "Document current baseline and pain point",
+        "Define target outcome and measurement source",
+        "Identify what AI may and may not change",
+        "Write solution-neutral problem statement"
+      ],
+      "decisions": [
+        "Outcome metric vs activity metric",
+        "AI assistance vs automation",
+        "Pilot KPI vs long-term KPI",
+        "Value hypothesis vs confirmed business case"
+      ],
+      "templateSlide": 189,
+      "templatePath": "images/templates/step-02-template.png"
+    },
+    {
+      "id": 3,
+      "num": "03",
+      "groupPhase": "Discover",
+      "phase": "Discover",
+      "title": "Identify Stakeholders, Owners and Decision Rights",
+      "purpose": "Identify who provides evidence, who owns data, who approves risk and who operates the service.",
+      "architectureLevel": "Conceptual",
+      "togaf": "Stakeholder Management",
+      "nist": "Govern / Map",
+      "output": "Stakeholder and Decision-Rights Map",
+      "gate": "Decision rights and evidence owners are named.",
+      "actions": [
+        "Map affected business and technical groups",
+        "Identify required approvers by risk area",
+        "Separate sponsor, user, owner and operator roles",
+        "Create escalation path for unresolved decisions",
+        "Validate the map in kickoff"
+      ],
+      "decisions": [
+        "Who approves data access?",
+        "Who signs off model behavior?",
+        "Who owns content freshness?",
+        "Who supports the service after launch?"
+      ],
+      "templateSlide": 190,
+      "templatePath": "images/templates/step-03-template.png"
+    },
+    {
+      "id": 4,
+      "num": "04",
+      "groupPhase": "Discover",
+      "phase": "Discover",
+      "title": "Analyze the Current Business and Technology State",
+      "purpose": "Build a truthful current-state view of workflows, systems, data, tools, infrastructure and operations.",
+      "architectureLevel": "Conceptual",
+      "togaf": "Baseline Architecture",
+      "nist": "Map",
+      "output": "Current-State Business and Technology Architecture",
+      "gate": "Current-state findings are validated by owners.",
+      "actions": [
+        "Collect architecture diagrams and inventories",
+        "Interview business, application, data and platform owners",
+        "Map data and integration dependencies",
+        "Identify gaps, duplication, shadow AI and unsupported tools",
+        "Publish validated current-state summary"
+      ],
+      "decisions": [
+        "Inventory depth required before design",
+        "Include vs exclude existing tools",
+        "Observed evidence vs assumed environment",
+        "Current state enough for conceptual vs logical design"
+      ],
+      "templateSlide": 191,
+      "templatePath": "images/templates/step-04-template.png"
+    },
+    {
+      "id": 5,
+      "num": "05",
+      "groupPhase": "Discover",
+      "phase": "Discover",
+      "title": "Define Requirements, Assumptions, Constraints and Risks",
+      "purpose": "Separate what must be true, what is assumed, what limits design and what could harm the initiative.",
+      "architectureLevel": "Conceptual",
+      "togaf": "Requirements Management",
+      "nist": "Map / Govern",
+      "output": "Requirements, Assumptions, Constraints and Risk Register",
+      "gate": "RACR items are prioritized and owned.",
+      "actions": [
+        "Collect functional and nonfunctional requirements",
+        "Classify constraints separately from preferences",
+        "Record assumptions with validation owners",
+        "Document risks and mitigation approach",
+        "Prioritize using MoSCoW or risk/value impact"
+      ],
+      "decisions": [
+        "Requirement vs constraint",
+        "Must-have vs should-have",
+        "Assumption validation plan",
+        "Risk treatment: accept, avoid, control, transfer or monitor"
+      ],
+      "templateSlide": 192,
+      "templatePath": "images/templates/step-05-template.png"
+    },
+    {
+      "id": 6,
+      "num": "06",
+      "groupPhase": "Assess",
+      "phase": "Assess",
+      "title": "Determine AI Suitability and Capability Pattern",
+      "purpose": "Decide whether the problem needs deterministic automation, ML, GenAI, RAG, agents, multimodal AI or a hybrid pattern.",
+      "architectureLevel": "Conceptual → Logical",
+      "togaf": "Architecture Vision / IS Architecture",
+      "nist": "Map",
+      "output": "AI Capability Classification Matrix",
+      "gate": "Architecture pattern is selected with disqualifiers and controls.",
+      "actions": [
+        "Decompose the workflow into tasks",
+        "Classify each task by required capability",
+        "Identify the source of truth for each task",
+        "Add control boundary and evaluation metric",
+        "Reject AI where deterministic logic is safer"
+      ],
+      "decisions": [
+        "Rules vs ML vs GenAI",
+        "RAG vs fine-tuning vs long context",
+        "Copilot vs workflow vs agent",
+        "Single model vs hybrid pattern"
+      ],
+      "templateSlide": 193,
+      "templatePath": "images/templates/step-06-template.png"
+    },
+    {
+      "id": 7,
+      "num": "07",
+      "groupPhase": "Assess",
+      "phase": "Assess",
+      "title": "Assess Enterprise AI Readiness",
+      "purpose": "Determine whether the organization is ready for a responsible pilot or must remediate gaps first.",
+      "architectureLevel": "Conceptual",
+      "togaf": "Baseline/Gaps",
+      "nist": "Map / Govern",
+      "output": "Enterprise AI Readiness Heatmap and Gap Backlog",
+      "gate": "Readiness blockers have owners and remediation path.",
+      "actions": [
+        "Score readiness dimensions with evidence",
+        "Mark unproven areas as unknown, not green",
+        "Identify red gaps blocking pilot",
+        "Create remediation backlog with owners",
+        "Recommend go, conditional go or no-go"
+      ],
+      "decisions": [
+        "Ready vs conditionally ready vs not ready",
+        "Pilot scope reduction vs remediation first",
+        "Which gaps block design vs production",
+        "Who owns each remediation item"
+      ],
+      "templateSlide": 194,
+      "templatePath": "images/templates/step-07-template.png"
+    },
+    {
+      "id": 8,
+      "num": "08",
+      "groupPhase": "Assess",
+      "phase": "Assess",
+      "title": "Prioritize the Use Case and Validate the Value Case",
+      "purpose": "Select the initiative worth funding now by comparing value, feasibility, risk, cost and strategic fit.",
+      "architectureLevel": "Conceptual",
+      "togaf": "Opportunities & Solutions",
+      "nist": "Map / Manage",
+      "output": "Use-Case Value and Feasibility Scorecard",
+      "gate": "Use case is approved, deferred or rejected with rationale.",
+      "actions": [
+        "List candidate use cases",
+        "Score value and feasibility with evidence",
+        "Adjust for risk and operating readiness",
+        "Estimate cost and effort at rough order level",
+        "Assign priority wave and decision rationale"
+      ],
+      "decisions": [
+        "Fund pilot vs defer",
+        "Single use case vs shared platform capability",
+        "Quick win vs strategic foundation",
+        "Stop low-value AI requests"
+      ],
+      "templateSlide": 195,
+      "templatePath": "images/templates/step-08-template.png"
+    },
+    {
+      "id": 9,
+      "num": "09",
+      "groupPhase": "Design",
+      "phase": "Design",
+      "title": "Develop the Conceptual AI Architecture",
+      "purpose": "Describe the future AI capability at the correct level of abstraction before choosing products.",
+      "architectureLevel": "Conceptual",
+      "togaf": "Architecture Vision / Target Concept",
+      "nist": "Map",
+      "output": "Conceptual AI Architecture",
+      "gate": "Stakeholders agree on capability, boundaries and success criteria.",
+      "actions": [
+        "Draw high-level capability view",
+        "Map users, systems and information sources",
+        "Identify trust zones and human-control boundaries",
+        "Trace architecture to outcome and RACR",
+        "Validate conceptual design with stakeholders"
+      ],
+      "decisions": [
+        "Assistant vs workflow automation vs agent",
+        "Shared platform vs point solution at concept level",
+        "What is explicitly out of scope",
+        "Which boundaries require approval"
+      ],
+      "templateSlide": 196,
+      "templatePath": "images/templates/step-09-template.png"
+    },
+    {
+      "id": 10,
+      "num": "10",
+      "groupPhase": "Design",
+      "phase": "Design",
+      "title": "Develop Architecture, Sourcing and Deployment Options",
+      "purpose": "Compare build, buy, partner, managed service, self-hosted, cloud, private and hybrid options.",
+      "architectureLevel": "Conceptual → Logical",
+      "togaf": "Opportunities & Solutions",
+      "nist": "Map / Manage",
+      "output": "Architecture and Sourcing Options Matrix",
+      "gate": "Viable options and disqualifiers are documented.",
+      "actions": [
+        "List options that are actually viable",
+        "Score against business, data, risk, operations and economics",
+        "Identify disqualifiers and lock-in risks",
+        "Define exit strategy and revisit triggers",
+        "Recommend option set for ADR"
+      ],
+      "decisions": [
+        "Build vs buy vs partner",
+        "Cloud vs on-prem vs hybrid",
+        "Managed vs self-managed",
+        "Open-source vs proprietary model"
+      ],
+      "templateSlide": 197,
+      "templatePath": "images/templates/step-10-template.png"
+    },
+    {
+      "id": 11,
+      "num": "11",
+      "groupPhase": "Design",
+      "phase": "Design",
+      "title": "Evaluate Tradeoffs and Record Architecture Decisions",
+      "purpose": "Turn recommendations into traceable architecture decisions with evidence, implications and revisit triggers.",
+      "architectureLevel": "Logical",
+      "togaf": "Implementation Governance",
+      "nist": "Manage",
+      "output": "AI Architecture Decision Records",
+      "gate": "Critical decisions are approved and traceable.",
+      "actions": [
+        "Identify decisions with cost, risk or lock-in impact",
+        "Document options and evidence",
+        "Record positive and negative implications",
+        "Map risks to mitigations and owners",
+        "Approve and store ADR with architecture package"
+      ],
+      "decisions": [
+        "Which decisions need ADRs",
+        "What evidence justifies the decision",
+        "When to reopen decision",
+        "Who approves exception"
+      ],
+      "templateSlide": 198,
+      "templatePath": "images/templates/step-11-template.png"
+    },
+    {
+      "id": 12,
+      "num": "12",
+      "groupPhase": "Design",
+      "phase": "Design",
+      "title": "Develop the Logical AI Architecture",
+      "purpose": "Define how the AI system works across prompts, RAG, models, agents, APIs, identity, controls and observability.",
+      "architectureLevel": "Logical",
+      "togaf": "Information Systems Architecture",
+      "nist": "Map / Measure",
+      "output": "Logical AI Architecture Blueprint",
+      "gate": "Components, data flows, trust boundaries and controls are approved.",
+      "actions": [
+        "Lay out user and system flow",
+        "Map context assembly and retrieval path",
+        "Define model routing and tool boundaries",
+        "Add identity, guardrails and human approval",
+        "Connect telemetry, evaluation and operations feedback"
+      ],
+      "decisions": [
+        "RAG vs long context vs fine-tuning",
+        "Single agent vs workflow vs multi-agent",
+        "Central model gateway vs direct provider calls",
+        "Session memory vs persistent memory"
+      ],
+      "templateSlide": 199,
+      "templatePath": "images/templates/step-12-template.png"
+    },
+    {
+      "id": 13,
+      "num": "13",
+      "groupPhase": "Design",
+      "phase": "Design / Govern",
+      "title": "Design Security, Responsible AI and Governance Controls",
+      "purpose": "Identify AI-specific threats and define preventive, detective and governance controls.",
+      "architectureLevel": "Logical",
+      "togaf": "Security Architecture",
+      "nist": "Govern / Map / Manage",
+      "output": "AI Threat Model and Governance Control Plan",
+      "gate": "High-risk controls and approvals are accepted before build.",
+      "actions": [
+        "Mark trust boundaries on logical architecture",
+        "Identify threats by data, model, retrieval and tool path",
+        "Assign preventive and detective controls",
+        "Define validation tests and residual risk owner",
+        "Record governance gate and approval evidence"
+      ],
+      "decisions": [
+        "Risk tier and approval path",
+        "Read-only vs write-capable tools",
+        "Preventive vs detective controls",
+        "Accept, mitigate or defer risk"
+      ],
+      "templateSlide": 200,
+      "templatePath": "images/templates/step-13-template.png"
+    },
+    {
+      "id": 14,
+      "num": "14",
+      "groupPhase": "Design",
+      "phase": "Validate",
+      "title": "Define Evaluation, Quality and Acceptance Criteria",
+      "purpose": "Define how quality, safety, groundedness, latency, cost and usefulness will be proven before launch.",
+      "architectureLevel": "Logical → Implementation",
+      "togaf": "Requirements Validation",
+      "nist": "Measure",
+      "output": "AI Evaluation and Acceptance Plan",
+      "gate": "Pass/fail metrics are agreed before pilot execution.",
+      "actions": [
+        "Define evaluation goals and decision supported",
+        "Build test sets from realistic workflows",
+        "Select metrics and thresholds",
+        "Assign reviewers and failure taxonomy",
+        "Publish launch gate criteria"
+      ],
+      "decisions": [
+        "Metric selection by task type",
+        "Pass threshold vs monitoring threshold",
+        "Manual vs automated eval",
+        "Blocker vs warning failure"
+      ],
+      "templateSlide": 201,
+      "templatePath": "images/templates/step-14-template.png"
+    },
+    {
+      "id": 15,
+      "num": "15",
+      "groupPhase": "Design",
+      "phase": "Design / Deliver",
+      "title": "Develop the Implementation Architecture",
+      "purpose": "Translate logical design into deployable services, environments, endpoints, identity, infrastructure and operations configuration.",
+      "architectureLevel": "Implementation",
+      "togaf": "Technology Architecture",
+      "nist": "Manage",
+      "output": "Implementation Architecture and Bill of Services",
+      "gate": "Engineering can build without guessing architecture intent.",
+      "actions": [
+        "Select concrete services and regions",
+        "Map identities, secrets and network paths",
+        "Define environments, release pipeline and configuration ownership",
+        "Specify observability and operational hooks",
+        "Review build plan against ADRs and NFRs"
+      ],
+      "decisions": [
+        "Specific cloud service vs self-hosted runtime",
+        "Vector DB managed vs embedded vs self-hosted",
+        "Private endpoint vs public API",
+        "GPU capacity vs managed API"
+      ],
+      "templateSlide": 202,
+      "templatePath": "images/templates/step-15-template.png"
+    },
+    {
+      "id": 16,
+      "num": "16",
+      "groupPhase": "Validate",
+      "phase": "Validate",
+      "title": "Plan the Controlled AI Pilot",
+      "purpose": "Design the smallest safe pilot that produces useful business, technical and risk evidence.",
+      "architectureLevel": "Implementation",
+      "togaf": "Migration Planning",
+      "nist": "Manage",
+      "output": "Controlled AI Pilot Charter",
+      "gate": "Pilot scope, controls, data and success criteria are approved.",
+      "actions": [
+        "Define pilot objectives and non-goals",
+        "Select users, data and scenarios",
+        "Configure controls and monitoring",
+        "Agree success and stop criteria",
+        "Approve pilot charter and communication plan"
+      ],
+      "decisions": [
+        "Shadow mode vs assisted mode",
+        "Read-only vs write-capable pilot",
+        "Duration and success thresholds",
+        "Stop/revise/proceed criteria"
+      ],
+      "templateSlide": 203,
+      "templatePath": "images/templates/step-16-template.png"
+    },
+    {
+      "id": 17,
+      "num": "17",
+      "groupPhase": "Validate",
+      "phase": "Validate",
+      "title": "Execute and Evaluate the Pilot",
+      "purpose": "Evaluate pilot evidence and decide whether to proceed, revise, remediate or stop.",
+      "architectureLevel": "Implementation",
+      "togaf": "Implementation Governance",
+      "nist": "Measure / Manage",
+      "output": "Pilot Test Results and Decision Report",
+      "gate": "Evidence supports proceed, revise or stop decision.",
+      "actions": [
+        "Collect quantitative and qualitative results",
+        "Analyze failures by root cause",
+        "Compare against acceptance thresholds",
+        "Document risk and cost implications",
+        "Facilitate proceed/revise/stop decision"
+      ],
+      "decisions": [
+        "Proceed to production design",
+        "Extend pilot",
+        "Remediate and retest",
+        "Stop or re-scope"
+      ],
+      "templateSlide": 204,
+      "templatePath": "images/templates/step-17-template.png"
+    },
+    {
+      "id": 18,
+      "num": "18",
+      "groupPhase": "Validate",
+      "phase": "Validate / Deliver",
+      "title": "Conduct the Productionization Decision Review",
+      "purpose": "Determine whether pilot evidence justifies production implementation and what conditions must close before launch.",
+      "architectureLevel": "Implementation",
+      "togaf": "Implementation Governance",
+      "nist": "Manage",
+      "output": "Productionization Decision Gate",
+      "gate": "Productionize, revise, remediate or stop decision approved.",
+      "actions": [
+        "Review pilot evidence and production blockers",
+        "Verify unresolved risks and exceptions",
+        "Confirm build, controls, support and rollback path",
+        "Validate launch conditions and funding decision",
+        "Record productionize/remediate/stop decision and owners"
+      ],
+      "decisions": [
+        "Productionize vs remediate vs stop",
+        "Exception accepted vs blocker",
+        "Production build vs pilot hardening",
+        "Launch conditions and owners"
+      ],
+      "templateSlide": 205,
+      "templatePath": "images/templates/step-18-template.png"
+    },
+    {
+      "id": 19,
+      "num": "19",
+      "groupPhase": "Deliver",
+      "phase": "Deliver",
+      "title": "Implement, Integrate and Enable the Production Solution",
+      "purpose": "Execute production workstreams across platform, integration, controls, observability, adoption, support and service ownership.",
+      "architectureLevel": "Implementation",
+      "togaf": "Migration Planning",
+      "nist": "Manage",
+      "output": "Production Implementation, Operating Model and Adoption Plan",
+      "gate": "Production implementation, owners, controls, dependencies, training and support are approved.",
+      "actions": [
+        "Convert readiness gaps into workstreams",
+        "Assign owners and dependencies",
+        "Define service support and governance cadence",
+        "Plan user training and feedback channels",
+        "Publish 30/60/90-day implementation roadmap"
+      ],
+      "decisions": [
+        "Central vs federated operating model",
+        "Champion network vs standard training",
+        "Support ownership model",
+        "Release cadence and change authority"
+      ],
+      "templateSlide": 206,
+      "templatePath": "images/templates/step-19-template.png"
+    },
+    {
+      "id": 20,
+      "num": "20",
+      "groupPhase": "Deliver",
+      "phase": "Deliver",
+      "title": "Execute Final Readiness, Controlled Go-Live and Service Transition",
+      "purpose": "Confirm final readiness, release the AI service under controlled conditions and transition ownership to operations.",
+      "architectureLevel": "Implementation",
+      "togaf": "Implementation Governance",
+      "nist": "Manage",
+      "output": "Go-Live and Service Transition Record",
+      "gate": "Service is live, validated, monitored and owned.",
+      "actions": [
+        "Approve change and release package",
+        "Deploy to limited production scope",
+        "Run post-deploy validation and telemetry checks",
+        "Confirm support handover and communication",
+        "Record go-live status and rollback path"
+      ],
+      "decisions": [
+        "Canary vs full launch",
+        "Manual validation vs automated post-deploy checks",
+        "Go-live window and rollback threshold",
+        "Operational acceptance"
+      ],
+      "templateSlide": 207,
+      "templatePath": "images/templates/step-20-template.png"
+    },
+    {
+      "id": 21,
+      "num": "21",
+      "groupPhase": "Operate",
+      "phase": "Operate",
+      "title": "Operate, Monitor and Continually Improve the AI Service",
+      "purpose": "Operate the AI service with monitoring, incident response, evaluation, cost control and continuous improvement.",
+      "architectureLevel": "Implementation / Operational",
+      "togaf": "Architecture Change Management",
+      "nist": "Measure / Manage",
+      "output": "AI Operations Runbook and Observability Dashboard",
+      "gate": "Service meets agreed operational and quality thresholds.",
+      "actions": [
+        "Review daily/weekly service telemetry",
+        "Classify incidents and recurring problems",
+        "Run regression evaluations for changes",
+        "Manage cost and capacity thresholds",
+        "Feed improvements into backlog and governance review"
+      ],
+      "decisions": [
+        "Incident vs problem",
+        "Rollback vs hotfix vs content remediation",
+        "Model route change vs prompt change",
+        "Scale vs optimize vs retire"
+      ],
+      "templateSlide": 208,
+      "templatePath": "images/templates/step-21-template.png"
+    },
+    {
+      "id": 22,
+      "num": "22",
+      "groupPhase": "Operate",
+      "phase": "Operate",
+      "title": "Review, Recertify, Scale or Retire the AI Solution",
+      "purpose": "Decide whether the AI service remains approved, should scale, needs remediation or should be retired.",
+      "architectureLevel": "Operational",
+      "togaf": "Architecture Change Management",
+      "nist": "Govern / Measure / Manage",
+      "output": "Recertification, Scale or Retirement Decision",
+      "gate": "Continued use, scale-out, remediation or retirement is approved.",
+      "actions": [
+        "Review business, quality, risk and operations evidence",
+        "Identify change triggers and expired exceptions",
+        "Re-run required evaluations and risk reviews",
+        "Decide continue, scale, remediate or retire",
+        "Update ADRs, inventory, roadmap and communications"
+      ],
+      "decisions": [
+        "Continue as-is",
+        "Scale to next domain",
+        "Remediate and retest",
+        "Retire or replace"
+      ],
+      "templateSlide": 209,
+      "templatePath": "images/templates/step-22-template.png"
+    }
+  ]
+};
+const SCENARIOS = [
+  {
+    "num": 1,
+    "industry": "Telecommunications",
+    "title": "Telco Network AIOps Platform",
+    "outcome": "Reduce P1 preparation time by 30%",
+    "pattern": "ML anomaly detection + permission-aware RAG + read-only NOC assistant",
+    "risk": "Operational Tier 2; no autonomous remediation",
+    "baseline": "47 min MTTR; 40% manual correlation",
+    "systems": "Splunk, NetBox, ServiceNow, Confluence",
+    "control": "Human approval, ACL retrieval, API allowlist, audit trail",
+    "metric": "MTTR reduction"
+  },
+  {
+    "num": 2,
+    "industry": "Financial Services",
+    "title": "Financial Services GenAI Assistant",
+    "outcome": "Improve first-contact resolution and citation quality",
+    "pattern": "Permission-aware RAG + response drafting + compliance logging",
+    "risk": "Regulated customer-facing workflow",
+    "baseline": "61% first-contact resolution; 12 min research",
+    "systems": "CRM, policy repository, archive, compliance log",
+    "control": "Entitlements, citation requirement, communications review, retention",
+    "metric": "citation correctness"
+  },
+  {
+    "num": 3,
+    "industry": "Healthcare",
+    "title": "Healthcare Clinical Decision Support",
+    "outcome": "Reduce chart review time while preserving clinician authority",
+    "pattern": "Evidence-grounded clinical summarization + human-in-the-loop decision support",
+    "risk": "PHI and patient safety; no autonomous diagnosis",
+    "baseline": "25 min chart review per complex case",
+    "systems": "Epic EHR, clinical guideline repository, audit log",
+    "control": "PHI controls, citation, clinician approval, safety red-team",
+    "metric": "review time reduction"
+  },
+  {
+    "num": 4,
+    "industry": "Public Sector",
+    "title": "Government Document Intelligence",
+    "outcome": "Accelerate case preparation with transparent evidence traceability",
+    "pattern": "document AI + classification + permission-aware retrieval + summary drafting",
+    "risk": "records retention, transparency, accessibility",
+    "baseline": "5.5 days average case prep",
+    "systems": "case management, records repository, identity provider",
+    "control": "classification, records retention, human review, audit log",
+    "metric": "case prep time"
+  },
+  {
+    "num": 5,
+    "industry": "Technology / It Operations",
+    "title": "Enterprise IT Operations with ServiceNow",
+    "outcome": "Reduce incident resolution effort and increase knowledge reuse",
+    "pattern": "ITSM copilot + RAG KB + approved workflow actions",
+    "risk": "incorrect ticket updates and workflow actions",
+    "baseline": "L2 tickets average 2.8 hours to resolve",
+    "systems": "ServiceNow, Datadog, Jira, CMDB",
+    "control": "human-approved writeback, correlation ID, rollback queue",
+    "metric": "resolution time"
+  },
+  {
+    "num": 6,
+    "industry": "Retail",
+    "title": "Retail Customer Experience AI",
+    "outcome": "Improve service consistency and reduce handle time",
+    "pattern": "omnichannel agent assist + policy RAG + next-best-action suggestions",
+    "risk": "PII exposure and incorrect policy advice",
+    "baseline": "8.4 min average handle time",
+    "systems": "CRM, order management, product catalog, chat platform",
+    "control": "PII minimization, role-aware retrieval, supervisor review",
+    "metric": "AHT reduction"
+  },
+  {
+    "num": 7,
+    "industry": "Manufacturing",
+    "title": "Manufacturing Predictive Maintenance",
+    "outcome": "Reduce unplanned downtime across two production lines",
+    "pattern": "time-series anomaly ML + work-instruction RAG + technician copilot",
+    "risk": "OT safety and unsafe automation",
+    "baseline": "6.2 downtime incidents/month/line",
+    "systems": "IoT platform, historian, CMMS, SOP repository",
+    "control": "edge fail-safe, no auto-shutdown, LOTO rules, human approval",
+    "metric": "unplanned downtime"
+  },
+  {
+    "num": 8,
+    "industry": "Security Operations",
+    "title": "Cybersecurity Threat Intelligence",
+    "outcome": "Accelerate triage without increasing analyst risk",
+    "pattern": "threat-intel RAG + enrichment agents + analyst approval",
+    "risk": "tool abuse, sensitive data exposure, false attribution",
+    "baseline": "45 min enrichment per high-priority alert",
+    "systems": "SIEM, EDR, TIP, asset CMDB, ticketing",
+    "control": "read-only enrichment tools, analyst approval, audit trace",
+    "metric": "enrichment time"
+  },
+  {
+    "num": 9,
+    "industry": "Insurance / Financial Services",
+    "title": "Insurance Claims Processing AI",
+    "outcome": "Improve routing accuracy and reduce manual intake time",
+    "pattern": "document AI + classification + human-review queue",
+    "risk": "bias, adverse impact, incorrect classification",
+    "baseline": "68% routing accuracy; 22 min intake",
+    "systems": "claims system, document store, policy admin, workflow queue",
+    "control": "human review, explainable triage reason, bias tests, audit trail",
+    "metric": "routing accuracy"
+  },
+  {
+    "num": 10,
+    "industry": "Energy",
+    "title": "Energy Grid Optimization AI",
+    "outcome": "Improve grid-response decisions without autonomous control",
+    "pattern": "forecasting + optimization advisory + operator approval",
+    "risk": "critical infrastructure and safety",
+    "baseline": "manual analysis delays during congestion events",
+    "systems": "SCADA, historian, EMS, outage system",
+    "control": "operator approval, simulation validation, OT segmentation",
+    "metric": "response time"
+  },
+  {
+    "num": 11,
+    "industry": "Professional Services",
+    "title": "Legal Contract Intelligence",
+    "outcome": "Reduce review cycle time while preserving attorney judgment",
+    "pattern": "legal RAG + clause extraction + attorney review workflow",
+    "risk": "privilege, confidentiality, incorrect legal interpretation",
+    "baseline": "3.1 hrs per contract review",
+    "systems": "DMS, contract repository, matter management, review workflow",
+    "control": "matter-level access, privilege filters, attorney approval, audit log",
+    "metric": "cycle time"
+  },
+  {
+    "num": 12,
+    "industry": "Manufacturing / Logistics",
+    "title": "Supply Chain Intelligence",
+    "outcome": "Improve disruption response and planning accuracy",
+    "pattern": "control-tower intelligence + forecasting + scenario summarization",
+    "risk": "bad recommendations and stale supplier data",
+    "baseline": "manual risk analysis across spreadsheets and emails",
+    "systems": "ERP, WMS, TMS, supplier portal, planning system",
+    "control": "planner approval, confidence scoring, source freshness, audit trail",
+    "metric": "planning cycle time"
+  },
+  {
+    "num": 13,
+    "industry": "Technology / Hr",
+    "title": "HR Talent Intelligence Platform",
+    "outcome": "Improve talent matching while controlling fairness risk",
+    "pattern": "skills graph + RAG job matching + human review",
+    "risk": "bias, privacy, inappropriate inference",
+    "baseline": "manual skills search; inconsistent role matching",
+    "systems": "HRIS, ATS, LMS, skills platform",
+    "control": "fairness review, consent, role-based access, human decision ownership",
+    "metric": "match usefulness"
+  },
+  {
+    "num": 14,
+    "industry": "Healthcare / Life Sciences",
+    "title": "Pharma Clinical Trials AI",
+    "outcome": "Accelerate study operations while preserving GxP controls",
+    "pattern": "GxP-controlled document intelligence + site-risk analytics",
+    "risk": "GxP validation, patient privacy, regulatory inspection",
+    "baseline": "slow protocol deviation review and site risk detection",
+    "systems": "CTMS, eTMF, EDC, document repository",
+    "control": "validated workflow, audit trail, SOP alignment, human approval",
+    "metric": "review cycle time"
+  },
+  {
+    "num": 15,
+    "industry": "Technology / Private Cloud",
+    "title": "Private Cloud AI Infrastructure",
+    "outcome": "Improve GPU utilization and control AI platform risk",
+    "pattern": "self-hosted model serving + model gateway + shared GPU platform",
+    "risk": "multi-tenant isolation, model provenance, capacity exhaustion",
+    "baseline": "34% GPU utilization; inconsistent per-team deployments",
+    "systems": "Kubernetes, GPU cluster, model registry, model gateway, observability",
+    "control": "quotas, signed model artifacts, network isolation, cost attribution",
+    "metric": "GPU utilization"
+  }
+];
+let currentScenario=1;
+const steps = new Map(DATA.steps.map(s=>[s.id,s]));
+let current=1;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>\"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+function phaseFor(id){return DATA.phases.find(p=>id>=p.start&&id<=p.end)}
+function shortTitle(t){return t.replace(/^Confirm the /,'Confirm ').replace(/^Frame the /,'Frame ').replace(/^Identify /,'Map ').replace(/^Analyze the /,'Analyze ').replace(/^Define /,'Define ').replace(/^Determine /,'Determine ').replace(/^Assess /,'Assess ').replace(/^Prioritize /,'Prioritize ').replace(/^Develop the /,'').replace(/^Establish /,'').replace(/^Design the /,'').replace(/^Plan /,'Plan ').replace(/^Conduct the /,'').replace(/^Execute /,'').replace(/^Operate /,'Operate ').replace(/^Review, /,'')}
+function renderNav(){
+ const p=phaseFor(current);
+ $('methodProgress').textContent=`Step ${String(current).padStart(2,'0')} of 22`;
+ $('phaseRow').innerHTML=DATA.phases.map(x=>`<button class="phase ${x.name===p.name?'active':''}" data-phase="${esc(x.name)}" type="button"><div class="phase-name"><span class="dot"></span>${esc(x.name.toUpperCase())}</div><div class="phase-range">Steps ${String(x.start).padStart(2,'0')}–${String(x.end).padStart(2,'0')} · ${esc(x.tagline)}</div></button>`).join('');
+ $('phaseTitle').textContent=`${p.name} — ${p.tagline}`;$('phaseDescription').textContent=p.description;
+ $('stepTabs').innerHTML=p.steps.map(id=>{const s=steps.get(id);return `<button class="step ${id===current?'active':''}" data-step="${id}" type="button">${s.num} · ${esc(shortTitle(s.title))}</button>`}).join('');
+ document.querySelectorAll('[data-phase]').forEach(b=>b.addEventListener('click',()=>{const x=DATA.phases.find(p=>p.name===b.dataset.phase);setStep(x.start,true)}));
+ document.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>setStep(Number(b.dataset.step),true)));
+ const activePhase=$('phaseRow').querySelector('.phase.active');
+ const activeStep=$('stepTabs').querySelector('.step.active');
+ if(activePhase){const rail=$('phaseRow');rail.scrollLeft=Math.max(0,activePhase.offsetLeft-(rail.clientWidth-activePhase.offsetWidth)/2)}
+ if(activeStep){const rail=$('stepTabs');rail.scrollLeft=Math.max(0,activeStep.offsetLeft-(rail.clientWidth-activeStep.offsetWidth)/2)}
+}
+
+function scenarioById(id){return SCENARIOS.find(s=>s.num===id)||SCENARIOS[0]}
+function appliedScenarioText(s,step){
+ const phase=phaseFor(step.id).name;
+ if(phase==='Discover') return `Use ${s.baseline} as starting evidence, confirm the sponsor and workflow around ${s.systems}, and frame the engagement around the measurable outcome: ${s.outcome}.`;
+ if(phase==='Assess') return `Test whether ${s.pattern} is justified by the business outcome and readiness evidence. Treat ${s.risk} as a design constraint, not a note to address later.`;
+ if(phase==='Design') return `Shape the target architecture around ${s.pattern}, integrate with ${s.systems}, and make ${s.control} explicit in the architecture and decision record.`;
+ if(phase==='Validate') return `Pilot the design against ${s.metric} while proving the control boundary: ${s.control}. Evidence must support the production decision before the engagement advances.`;
+ if(phase==='Deliver') return `Implement the approved pattern into ${s.systems}, preserve ${s.control}, and transition ownership with adoption and rollback criteria tied to ${s.outcome}.`;
+ return `Operate and recertify the service using ${s.metric} as a value signal while continuously checking ${s.control} and any material change to the architecture, data, provider, or risk profile.`;
+}
+function scenarioImagePath(scenarioNum, stepId){
+ return `images/scenarios/scenario-${String(scenarioNum).padStart(2,'0')}/step-${String(stepId).padStart(2,'0')}.png`;
+}
+function renderPracticeNav(){
+ const p=phaseFor(current);
+ $('practicePhaseRow').innerHTML=DATA.phases.map(x=>`<button class="phase ${x.name===p.name?'active':''}" data-practice-phase="${esc(x.name)}" type="button"><div class="phase-name"><span class="dot"></span>${esc(x.name.toUpperCase())}</div><div class="phase-range">Steps ${String(x.start).padStart(2,'0')}–${String(x.end).padStart(2,'0')} · ${esc(x.tagline)}</div></button>`).join('');
+ $('practicePhaseTitle').textContent=`${p.name} — ${p.tagline}`;
+ $('practicePhaseDescription').textContent=p.description;
+ $('practiceStepTabs').innerHTML=p.steps.map(id=>{const s=steps.get(id);return `<button class="step ${id===current?'active':''}" data-practice-step="${id}" type="button">${s.num} · ${esc(shortTitle(s.title))}</button>`}).join('');
+ document.querySelectorAll('[data-practice-phase]').forEach(b=>b.addEventListener('click',()=>{const x=DATA.phases.find(p=>p.name===b.dataset.practicePhase);setStep(x.start,true)}));
+ document.querySelectorAll('[data-practice-step]').forEach(b=>b.addEventListener('click',()=>setStep(Number(b.dataset.practiceStep),true)));
+ const activePhase=$('practicePhaseRow').querySelector('.phase.active');
+ const activeStep=$('practiceStepTabs').querySelector('.step.active');
+ if(activePhase){const rail=$('practicePhaseRow');rail.scrollLeft=Math.max(0,activePhase.offsetLeft-(rail.clientWidth-activePhase.offsetWidth)/2)}
+ if(activeStep){const rail=$('practiceStepTabs');rail.scrollLeft=Math.max(0,activeStep.offsetLeft-(rail.clientWidth-activeStep.offsetWidth)/2)}
+}
+function renderScenarios(){
+ const s=scenarioById(currentScenario),step=steps.get(current);
+ if(!$('scenarioSelect').options.length){$('scenarioSelect').innerHTML=SCENARIOS.map(x=>`<option value="${x.num}">${String(x.num).padStart(2,'0')} · ${esc(x.industry)} — ${esc(x.title)}</option>`).join('')}
+ $('scenarioSelect').value=String(s.num);
+ $('scenarioIndustry').textContent=`Scenario ${String(s.num).padStart(2,'0')} · ${s.industry}`;
+ $('scenarioTitle').textContent=s.title;
+ $('scenarioStepBadge').textContent=`22 completed deliverables · viewing Step ${step.num}`;
+ renderPracticeNav();
+ $('appliedStepTitle').textContent=`Step ${step.num} · ${step.title}`;
+ $('appliedStepText').textContent=appliedScenarioText(s,step);
+ $('appliedDecision').textContent=s.risk;
+ $('appliedArtifact').textContent=step.output;
+ $('scenarioDeliverableTitle').textContent=`Scenario ${String(s.num).padStart(2,'0')} · Step ${step.num} · ${step.output}`;
+ const path=scenarioImagePath(s.num,step.id);
+ $('scenarioDeliverableImg').src=path;
+ $('scenarioDeliverableImg').alt=`${s.title} — Step ${step.num} ${step.output} completed deliverable`;
+}
+
+function render(){
+ const s=steps.get(current),p=phaseFor(current);renderNav();
+ $('breadcrumb').textContent=`${p.name} · Step ${s.num} of 22`;$('stepTitle').textContent=s.title;$('purpose').textContent=s.purpose;$('stepCounter').textContent=s.num;
+ $('actions').innerHTML=s.actions.map((x,i)=>`<li><b>${i+1}</b><span>${esc(x)}</span></li>`).join('');
+ $('decisions').innerHTML=s.decisions.map((x,i)=>`<li><b>D${i+1}</b><span>${esc(x)}</span></li>`).join('');
+ $('output').textContent=s.output;$('gate').textContent=s.gate;$('templateTitle').textContent=s.output;
+ $('templateImg').src=s.templatePath;$('templateImg').alt=`${s.output} blank MOP template`;$('modalImg').src=s.templatePath;$('modalImg').alt=`${s.output} full template`;$('modalTitle').textContent=`Step ${s.num} · ${s.output}`;
+ $('prevBtn').disabled=current===1;$('nextBtn').disabled=current===22;$('progressFill').style.width=`${current/22*100}%`;renderScenarios();
+}
+function setStep(id,hash=false){current=Math.max(1,Math.min(22,id));render();if(hash)history.replaceState(null,'',`#step-${String(current).padStart(2,'0')}`)}
+function openImageModal(src,title,alt){$('modalImg').src=src;$('modalImg').alt=alt||title;$('modalTitle').textContent=title;$('modal').classList.add('open');document.body.style.overflow='hidden';$('closeModal').focus()}
+function openModal(){const s=steps.get(current);openImageModal(s.templatePath,`Step ${s.num} · ${s.output}`,`${s.output} full template`)}
+function openScenarioModal(){const s=scenarioById(currentScenario),step=steps.get(current),src=scenarioImagePath(s.num,step.id);openImageModal(src,`Scenario ${String(s.num).padStart(2,'0')} · Step ${step.num} · ${step.output}`,`${s.title} completed deliverable`)}
+function closeModal(){$('modal').classList.remove('open');document.body.style.overflow=''}
+$('scenarioSelect').addEventListener('change',e=>{currentScenario=Number(e.target.value);renderScenarios()});
+$('prevBtn').addEventListener('click',()=>setStep(current-1,true));$('nextBtn').addEventListener('click',()=>setStep(current+1,true));$('openTemplate').addEventListener('click',openModal);$('templateFrame').addEventListener('click',openModal);$('templateFrame').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal()}});$('openScenarioDeliverable').addEventListener('click',openScenarioModal);$('scenarioDeliverableFrame').addEventListener('click',openScenarioModal);$('scenarioDeliverableFrame').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openScenarioModal()}});$('closeModal').addEventListener('click',closeModal);$('modal').addEventListener('click',e=>{if(e.target===$('modal'))closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+function setShowcaseTab(tab){
+  const methodActive = tab !== 'practice';
+  $('methodTabPanel').hidden = !methodActive;
+  $('practiceTabPanel').hidden = methodActive;
+  $('methodTabBtn').classList.toggle('active', methodActive);
+  $('practiceTabBtn').classList.toggle('active', !methodActive);
+  $('methodTabBtn').setAttribute('aria-selected', methodActive ? 'true' : 'false');
+  $('practiceTabBtn').setAttribute('aria-selected', methodActive ? 'false' : 'true');
+  if(!methodActive) renderScenarios();
+}
+$('methodTabBtn').addEventListener('click',()=>setShowcaseTab('method'));
+$('practiceTabBtn').addEventListener('click',()=>setShowcaseTab('practice'));
+
+const m=location.hash.match(/step-(\d{1,2})/);setStep(m?Number(m[1]):1,false);
+</script>
+</body>
+</html>
