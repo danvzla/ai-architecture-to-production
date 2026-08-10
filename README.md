@@ -2,6 +2,10 @@
 
 Interactive practitioner showcase demonstrating an end-to-end enterprise AI architecture and delivery lifecycle.
 
+## Live Demo
+
+https://danvzla.github.io/ai-architecture-to-production/
+
 ## What the showcase contains
 
 - **Architecture-to-Production Methodology** — 6 phases and 22 practitioner steps.
